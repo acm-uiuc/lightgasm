@@ -103,7 +103,7 @@ void loop() {
       pos++;
       if (pos >= 4) pos = 0;
     }
-    else if (inByte == ',') {
+    else if (inByte == ',' || inByte == 'n') {
       setLED(in[0], in[1], in[2], in[3]);
       /*
       Serial.print('[', BYTE);
