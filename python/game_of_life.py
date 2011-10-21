@@ -26,7 +26,7 @@ if __name__ == "__main__":
 	import octoapi
 	off = (0,0,0)
 	on = (0,1023,0)
-	pixels = [(),(),(),(),(),()]
+	pixels = [(),(),(),(),(),(),(),()]
 	for i in range(len(pixels)):
 		pixels[i] = random.choice([on, off])
 	c = GameOfLife()
@@ -35,4 +35,4 @@ if __name__ == "__main__":
 		c.update(0.04)
 		c.render(pixels)
 		octoapi.write(pixels)
-		time.sleep(.03)
+		time.sleep(.13)

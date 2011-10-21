@@ -12,7 +12,7 @@ def write(array):
         R = round(R)
         G = round(G)
         B = round(B)
-        towrite += "%d %d %d %d,"%(LED, R, G, B)
+        towrite += "%d %d %d %dn"%(LED, R, G, B)
     towrite += "W"
     ser.write(towrite)
     print "writing: "+towrite
