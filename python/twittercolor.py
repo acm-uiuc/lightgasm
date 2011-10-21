@@ -2,12 +2,12 @@ import twitter
 import string
 api = twitter.Api()
 
-red = (255, 0, 0)
-green = (0, 255, 0)
-blue = (0, 0, 255)
-orange = (255, 165, 0)
-purple = (255, 0, 255)
-yellow = (255, 255, 0)
+red = (1023, 0, 0)
+green = (0, 1023, 0)
+blue = (0, 0, 1023)
+orange = (1023, 660, 0)
+purple = (1023, 0, 1023)
+yellow = (1023, 1023, 0)
 
 class Search():
 	def render(self, pixels):
@@ -36,10 +36,15 @@ class Search():
 				pixels[i] = red
 			if( i > 6):
 				i = 0
+		return pixels
 
 if __name__ == "__main__":
 	import octoapi
-	pixels = [(),(),(),(),(),(),(),()]
-	s = Search()
-	s.render(pixels)
-	octoapi.write(pixels)
+	import time
+	pixels = [(0,0,0)]*8
+	while True:
+		s = Search()
+		s.render(pixels)
+		#octoapi.clear()
+		octoapi.write(pixels)
+		time.sleep(1)
