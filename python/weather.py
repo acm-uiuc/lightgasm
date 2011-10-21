@@ -1,4 +1,5 @@
 import yql as YQL
+from animations import RSL, SunClouds
 
 class Weather():
     def __init__(self, zipCode):

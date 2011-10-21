@@ -53,12 +53,12 @@ class SunClouds(Animation):
 			intensity = math.pow(intensity,self.width)
 			maxval = 1022
 			val = maxval * intensity + 1
-			if shine_type = "cloud":
+			if shine_type == "cloud":
 				self.pixels[i] = (val, val, val)
 			else:
 				self.pixels[i] = (val, val, 0)
 			qq[i] = intensity
-		print qq 
+		print qq
 		return self.pixels
 
 class RSL(Animation):
@@ -102,11 +102,11 @@ class RSL(Animation):
 		print pixels
 		return pixels
 
-if __name__ == "__main__":
-	pixels = [(),(),(),(),(),(),(),()]
-	c = Cloudy(0.1, 0.1)
-	while True:
-		c.update(0.04)
-		c.render(pixels)
-		octoapi.write(pixels)
-		time.sleep(.03)
+#if __name__ == "__main__":
+#	pixels = [(),(),(),(),(),(),(),()]
+#	c = Cloudy(0.1, 0.1)
+#	while True:
+#		c.update(0.04)
+#		c.render(pixels)
+#		octoapi.write(pixels)
+#		time.sleep(.03)
