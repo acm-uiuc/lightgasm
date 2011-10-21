@@ -84,29 +84,41 @@ class RSL(Animation):
 		qq = [0,0,0,0,0,0,0,0]
 
 		for i, pixel in enumerate(pixels):
-			pixels[i] = (0,0,0)
+			if (self.precip_type == "rain"):
+				pixels[i] = fade(pixels[i],(0,0,0),0.91)
+			else:
+				pixels[i] = fade(pixels[i],(0,0,0),0.94)
+
 
 		indexCount = random.randint(0, 7)
 		for i in range(0, indexCount):
 			randomIndex = random.randint(0, 7)
-			if (precip_type == "rain"):
-				pixels[randomIndex] = (0, 0, 100)
+			if (self.precip_type == "rain"):
+				if random.randint(0, 10) is 5:
+					pixels[randomIndex] = fade(pixels[randomIndex],(0, 0, 100), 0.1)
 			else:
-				pixels[randomIndex] = (1023, 1023, 1023)
+				if random.randint(0, 2) is 1:
+					pixels[randomIndex] = fade(pixels[randomIndex],(1023, 1023, 1023), 0.91)
 
 		if self.lightning:
-			if random.randint(0, 10) is 5:
+			if random.randint(0, 100) is 5:
 				randomIndex = random.randint(0,7)
-				pixels[randomIndex] = (1023, 1023, 1023)
+				pixels[randomIndex] = (1023, 1023, 800)
 
 		print pixels
 		return pixels
 
-#if __name__ == "__main__":
-#	pixels = [(),(),(),(),(),(),(),()]
-#	c = Cloudy(0.1, 0.1)
-#	while True:
-#		c.update(0.04)
-#		c.render(pixels)
-#		octoapi.write(pixels)
-#		time.sleep(.03)
+
+def fade(tup1, tup2, amount):
+	a = 1-amount
+	o = amount
+	return (tup1[0]*o+tup2[0]*a,tup1[1]*o+tup2[1]*a,tup1[2]*o+tup2[2]*a)
+
+if __name__ == "__main__":
+	pixels = [(0,0,0)]*8
+	c = RSL("rain", True, 0.1)
+	while True:
+		c.update(0.04)
+		c.render(pixels)
+		octoapi.write(pixels)
+		time.sleep(.03)
