@@ -18,7 +18,7 @@ class Search():
 			i = i+1
 			if (s.text.find("orange") > -1):
 				print("orange")
-				pixels[i] = orange	
+				pixels[i] = orange
 			elif (s.text.find("blue") > -1):
 				print("blue")
 				pixels[i] = blue

@@ -4,9 +4,12 @@ import octoapi
 import time
 import thread
 
-class Animation():
-	is_running = True
-	pixels = []
+class Animation(object):
+
+	def __init__(self):
+		super(Animation, self).__init__()
+		self.is_running = True
+		self.pixels = []
 
 	def update(self, timeDiff):
 		pass
@@ -17,10 +20,11 @@ class Animation():
 	def destroy(self):
 		self.is_running = False
 
-class SunClouds(Animation):
-	"""Represents cloudiness/sunshine"""
+class SCW(Animation):
+	"""Represents cloudiness/sunshine/windiness"""
 
 	def __init__(self, shine_type, speed, width):
+		super(SCW, self).__init__()
 		for i in range(0, 8):
 			self.pixels.append((0,0,0))
 
@@ -28,12 +32,16 @@ class SunClouds(Animation):
 		self.shine_type = shine_type
 		self.position = 0.0
 		self.direction = -1.0
-		self.width = random.random() * 5
+		if width is None:
+			self.width = random.random() * 5
+		else:
+			self.width = width
+		self.thread_id = thread.start_new_thread(self.loop, ())
 
 	def loop(self):
-		if self.is_running:
-			c.update(0.04)
-			c.render()
+		while self.is_running:
+			self.update(0.04)
+			self.render()
 			octoapi.write(self.pixels)
 			time.sleep(.03)
 
@@ -53,8 +61,16 @@ class SunClouds(Animation):
 			intensity = math.pow(intensity,self.width)
 			maxval = 1022
 			val = maxval * intensity + 1
-			if shine_type == "cloud":
+			if self.shine_type == "cloud":
 				self.pixels[i] = (val, val, val)
+			elif self.shine_type == "wind":
+				val = 100
+				if random.randint(0,1) == 0:
+					val+=random.randint(0,50)
+				else:
+					val-=random.randint(0,20)
+
+				self.pixels[i] = (0, 0, val)
 			else:
 				self.pixels[i] = (val, val, 0)
 			qq[i] = intensity
@@ -65,6 +81,8 @@ class RSL(Animation):
 	"""Represents Rain | Snow | Lightning, since their codebases are quite similar"""
 
 	def __init__(self, precip_type, lightning, update_speed):
+		super(RSL, self).__init__()
+	
 		self.update_speed = update_speed
 		self.precip_type = precip_type
 		self.lightning = lightning
@@ -79,28 +97,28 @@ class RSL(Animation):
 			octoapi.write(self.pixels)
 			time.sleep(self.update_speed)
 
-	def render(self, pixels):
-		size = float(len(pixels))
+	def render(self):
+		size = float(len(self.pixels))
 		qq = [0,0,0,0,0,0,0,0]
 
-		for i, pixel in enumerate(pixels):
-			pixels[i] = (0,0,0)
+		for i, pixel in enumerate(self.pixels):
+			self.pixels[i] = (0,0,0)
 
 		indexCount = random.randint(0, 7)
 		for i in range(0, indexCount):
 			randomIndex = random.randint(0, 7)
-			if (precip_type == "rain"):
-				pixels[randomIndex] = (0, 0, 100)
+			if (self.precip_type == "rain"):
+				self.pixels[randomIndex] = (0, 0, 100)
 			else:
-				pixels[randomIndex] = (1023, 1023, 1023)
+				self.pixels[randomIndex] = (1023, 1023, 1023)
 
 		if self.lightning:
 			if random.randint(0, 10) is 5:
 				randomIndex = random.randint(0,7)
-				pixels[randomIndex] = (1023, 1023, 1023)
+				self.pixels[randomIndex] = (1023, 1023, 1023)
 
-		print pixels
-		return pixels
+		print self.pixels
+		return self.pixels
 
 #if __name__ == "__main__":
 #	pixels = [(),(),(),(),(),(),(),()]
