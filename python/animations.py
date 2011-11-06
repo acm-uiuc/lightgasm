@@ -138,4 +138,4 @@ if __name__ == "__main__":
 		c.update(0.04)
 		c.render(pixels)
 		octoapi.write(pixels)
-		time.sleep(.03)
+		time.sleep(.001)

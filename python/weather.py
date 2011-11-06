@@ -34,7 +34,7 @@ class Weather():
         return obj
 
 if __name__ == "__main__":
-    weather = Weather(61801)
+    weather = Weather(71270)
     weather_type = weather.display_weather()
     while True:
         pass
